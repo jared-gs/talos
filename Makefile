@@ -289,7 +289,7 @@ talosctl:
 	@$(MAKE) local-talosctl-targetarch DEST=$(ARTIFACTS)
 
 image-%: ## Builds the specified image. Valid options are aws, azure, digital-ocean, gcp, and vmware (e.g. image-aws)
-	@docker pull $(REGISTRY_AND_USERNAME)/imager:$(IMAGE_TAG)
+	@docker pull $(REGISTRY_AND_USERNAME)/imager:$(IMAGE_TAG) --platform linux/amd64
 	@for platform in $(subst $(,),$(space),$(PLATFORM)); do \
 		arch=$$(basename "$${platform}") && \
 		docker run --rm -v /dev:/dev -v $(PWD)/$(ARTIFACTS):/secureboot:ro --network=host --privileged $(REGISTRY_AND_USERNAME)/imager:$(IMAGE_TAG) $* --arch $$arch --tar-to-stdout $(IMAGER_ARGS) | tar xz -C $(ARTIFACTS) ; \
